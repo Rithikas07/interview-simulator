@@ -1,0 +1,163 @@
+[
+  {
+    "id": 1,
+    "topic": "OOP",
+    "question": "What is the difference between abstract classes and interfaces in Java?",
+    "keywords": ["abstract", "interface", "multiple inheritance", "methods", "extend", "implement"],
+    "modelAnswer": "An abstract class can hold both abstract and concrete methods with state (fields), and a class can extend only one abstract class. An interface (post-Java 8) can have default and static methods but no instance state, and a class can implement multiple interfaces, which is how Java supports multiple inheritance of type."
+  },
+  {
+    "id": 2,
+    "topic": "OOP",
+    "question": "Explain the four pillars of object-oriented programming.",
+    "keywords": ["encapsulation", "inheritance", "polymorphism", "abstraction"],
+    "modelAnswer": "The four pillars are Encapsulation (hiding internal state behind methods), Inheritance (reusing behaviour via extends), Polymorphism (one interface, many implementations - overriding and overloading) and Abstraction (exposing only essential behaviour via abstract types)."
+  },
+  {
+    "id": 3,
+    "topic": "OOP",
+    "question": "What is method overriding vs method overloading?",
+    "keywords": ["overriding", "overloading", "runtime", "compile", "signature", "inheritance"],
+    "modelAnswer": "Overriding redefines an inherited method with the same signature in a subclass and is resolved at runtime (dynamic binding). Overloading defines methods with the same name but different parameter lists in the same class and is resolved at compile time."
+  },
+  {
+    "id": 4,
+    "topic": "OOP",
+    "question": "Why is Java not purely object-oriented?",
+    "keywords": ["primitives", "static", "everything", "object"],
+    "modelAnswer": "Java is not purely object-oriented because it supports primitive types (int, boolean, etc.) that are not objects, and static members that belong to the class rather than to instances. Not everything in Java is an object."
+  },
+  {
+    "id": 5,
+    "topic": "COLLECTIONS",
+    "question": "What is the difference between ArrayList and LinkedList?",
+    "keywords": ["arraylist", "linkedlist", "random access", "insertion", "resizable", "doubly"],
+    "modelAnswer": "ArrayList is backed by a resizable array giving O(1) random access but costly middle insertions. LinkedList is a doubly-linked list giving O(1) insertion at the ends but O(n) random access."
+  },
+  {
+    "id": 6,
+    "topic": "COLLECTIONS",
+    "question": "What is the difference between HashMap and ConcurrentHashMap?",
+    "keywords": ["hashmap", "concurrent", "thread", "synchronized", "null", "lock"],
+    "modelAnswer": "HashMap is not thread-safe and allows one null key. ConcurrentHashMap is thread-safe using fine-grained (bucket-level) locking, does not allow null keys/values, and is designed for concurrent reads and writes without locking the whole map."
+  },
+  {
+    "id": 7,
+    "topic": "COLLECTIONS",
+    "question": "Explain the difference between Set, List and Map.",
+    "keywords": ["set", "list", "map", "duplicates", "ordered", "key", "value"],
+    "modelAnswer": "A List is ordered and allows duplicates. A Set does not allow duplicates and is generally unordered (LinkedHashSet preserves insertion order, TreeSet sorts). A Map stores key-value pairs with unique keys and is not technically a Collection sub-interface."
+  },
+  {
+    "id": 8,
+    "topic": "COLLECTIONS",
+    "question": "What is the difference between Comparable and Comparator?",
+    "keywords": ["comparable", "comparator", "compareto", "compare", "natural", "sorting"],
+    "modelAnswer": "Comparable defines the natural ordering via compareTo() implemented inside the class itself. Comparator is an external comparison strategy with compare() that can be attached at runtime for custom sorting without modifying the class."
+  },
+  {
+    "id": 9,
+    "topic": "STRINGS",
+    "question": "Why are Strings immutable in Java?",
+    "keywords": ["immutable", "pool", "hashcode", "thread", "security", "share"],
+    "modelAnswer": "Strings are immutable mainly because of performance and security: it enables the string pool to share instances (saving memory), makes hashCode cacheable (safe as HashMap keys), guarantees thread safety, and protects against malicious modification of sensitive values."
+  },
+  {
+    "id": 10,
+    "topic": "STRINGS",
+    "question": "What is the difference between String, StringBuilder and StringBuffer?",
+    "keywords": ["immutable", "stringbuilder", "stringbuffer", "mutable", "synchronized", "concatenation"],
+    "modelAnswer": "String is immutable. StringBuilder is mutable and not synchronized, so it is fast for single-threaded concatenation. StringBuffer is mutable and synchronized (thread-safe), making it slower than StringBuilder."
+  },
+  {
+    "id": 11,
+    "topic": "STRINGS",
+    "question": "What does the String intern() method do?",
+    "keywords": ["intern", "pool", "canonical", "reference", "memory"],
+    "modelAnswer": "intern() returns the canonical instance of the string from the string pool. If the string is already in the pool, the pooled reference is returned; otherwise the string is added to the pool and returned."
+  },
+  {
+    "id": 12,
+    "topic": "EXCEPTIONS",
+    "question": "What is the difference between checked and unchecked exceptions?",
+    "keywords": ["checked", "unchecked", "runtimeexception", "compile", "handle", "throws"],
+    "modelAnswer": "Checked exceptions extend Exception but not RuntimeException and must be caught or declared with throws - enforced at compile time. Unchecked exceptions extend RuntimeException and need no compile-time handling."
+  },
+  {
+    "id": 13,
+    "topic": "EXCEPTIONS",
+    "question": "Can the finally block be skipped? What happens if return is inside try?",
+    "keywords": ["finally", "return", "system.exit", "execute", "skip"],
+    "modelAnswer": "finally runs even if try or catch returns or throws. It is skipped only in extreme cases such as System.exit() or JVM termination. If try has a return, finally still executes before the value is actually returned (and can override it)."
+  },
+  {
+    "id": 14,
+    "topic": "EXCEPTIONS",
+    "question": "What is try-with-resources?",
+    "keywords": ["try-with-resources", "autocloseable", "close", "resource", "java 7"],
+    "modelAnswer": "try-with-resources (Java 7+) declares AutoCloseable resources in the try header. They are closed automatically in reverse order of declaration, even on exception, replacing verbose finally-based cleanup."
+  },
+  {
+    "id": 15,
+    "topic": "JVM",
+    "question": "What are the main memory areas of the JVM?",
+    "keywords": ["heap", "stack", "method", "metaspace", "program counter", "garbage"],
+    "modelAnswer": "The JVM runtime data areas are: Heap (objects, GC-managed, shared), JVM Stack (per-thread frames with locals), Method Area / Metaspace (class metadata), PC Register (per-thread instruction pointer) and Native Method Stack for native calls."
+  },
+  {
+    "id": 16,
+    "topic": "JVM",
+    "question": "What is the role of the ClassLoader? Explain its delegation model.",
+    "keywords": ["classloader", "bootstrap", "extension", "application", "delegation", "parent"],
+    "modelAnswer": "ClassLoaders load class bytecode into the JVM. The delegation model says a loader first delegates to its parent: Application -> Extension/Platform -> Bootstrap. This ensures core classes are loaded by trusted loaders and are not spoofed."
+  },
+  {
+    "id": 17,
+    "topic": "JVM",
+    "question": "What is garbage collection and how does it work in Java?",
+    "keywords": ["garbage", "unreachable", "mark", "sweep", "generational", "minor", "major"],
+    "modelAnswer": "Garbage collection automatically reclaims memory of unreachable objects. The JVM typically uses generational GC: young generation collections (minor GC) use copying collectors, and old-generation collections (major GC) use mark-sweep or mark-compact algorithms."
+  },
+  {
+    "id": 18,
+    "topic": "JVM",
+    "question": "What is the difference between JDK, JRE and JVM?",
+    "keywords": ["jdk", "jre", "jvm", "development", "runtime", "tools"],
+    "modelAnswer": "JDK (Java Development Kit) contains the JRE plus development tools like javac. JRE (Java Runtime Environment) provides the libraries plus the JVM needed to run applications. JVM (Java Virtual Machine) is the engine that executes bytecode."
+  },
+  {
+    "id": 19,
+    "topic": "MULTITHREADING",
+    "question": "What is the difference between a process and a thread?",
+    "keywords": ["process", "thread", "memory", "share", "lightweight", "heap"],
+    "modelAnswer": "A process is an independent program with its own memory space. A thread is a lightweight unit of execution inside a process; threads of one process share the heap and other resources but have their own stack and program counter."
+  },
+  {
+    "id": 20,
+    "topic": "MULTITHREADING",
+    "question": "What does the synchronized keyword do?",
+    "keywords": ["synchronized", "lock", "monitor", "atomic", "critical", "thread"],
+    "modelAnswer": "synchronized ensures only one thread at a time can execute a method or block by acquiring the object's monitor lock. It protects critical sections, guaranteeing atomic, mutually exclusive access to shared state."
+  },
+  {
+    "id": 21,
+    "topic": "MULTITHREADING",
+    "question": "What is a deadlock and how can it be prevented?",
+    "keywords": ["deadlock", "circular", "order", "lock", "timeout", "avoid"],
+    "modelAnswer": "A deadlock occurs when two or more threads wait on locks held by each other in a circular chain. Prevention strategies: always acquire locks in a fixed global order, use lock timeouts (tryLock), minimize lock scope, or use higher-level concurrency utilities."
+  },
+  {
+    "id": 22,
+    "topic": "MULTITHREADING",
+    "question": "Explain the thread lifecycle states in Java.",
+    "keywords": ["new", "runnable", "blocked", "waiting", "terminated", "start"],
+    "modelAnswer": "A thread is: NEW (created, not started), RUNNABLE (eligible to run after start()), BLOCKED (waiting for a monitor lock), WAITING/TIMED_WAITING (wait/join/sleep), and TERMINATED when run() completes."
+  },
+  {
+    "id": 23,
+    "topic": "MULTITHREADING",
+    "question": "What is the difference between Runnable and Callable?",
+    "keywords": ["runnable", "callable", "return", "exception", "run", "call", "future"],
+    "modelAnswer": "Runnable's run() returns nothing and cannot throw checked exceptions. Callable's call() returns a value (via Future) and can throw checked exceptions, making it better for task-executor frameworks."
+  }
+]
