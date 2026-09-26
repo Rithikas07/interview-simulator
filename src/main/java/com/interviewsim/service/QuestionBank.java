@@ -40,4 +40,11 @@ public interface QuestionBank {
      * @return a list of questions in that topic
      */
     List<Question> getQuestionsByTopic(Topic topic);
+
+    /**
+     * Adds questions to the bank at runtime (e.g. AI-generated ones).
+     *
+     * @param newQuestions the questions to append
+     */
+    void addQuestions(List<Question> newQuestions);
 }

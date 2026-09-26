@@ -5,22 +5,26 @@ import com.interviewsim.model.Candidate;
 import com.interviewsim.model.Question;
 import com.interviewsim.service.AnswerEvaluator;
 import com.interviewsim.service.QuestionBank;
+import com.interviewsim.service.QuestionSetter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
  * Orchestrates one interview session.
  * <p>
- * The engine pulls random questions from the {@link QuestionBank}, hands
- * each one to an {@link InterviewListener} (the console UI) for display and
- * answer capture, evaluates each answer through the {@link AnswerEvaluator},
- * and collects the evaluations used for the final report. It is deliberately
- * UI-agnostic via the observer-style {@link InterviewListener} interface.
+ * The engine pulls questions from the {@link QuestionBank} using a pluggable
+ * {@link QuestionSetter} strategy (random, balanced or topic-focused),
+ * hands each one to an {@link InterviewListener} (the console UI) for
+ * display and answer capture, evaluates each answer through the
+ * {@link AnswerEvaluator}, and collects the evaluations used for the final
+ * report. It is deliberately UI-agnostic via the observer-style
+ * {@link InterviewListener} interface.
  * </p>
  *
  * @author Interview Simulator Team
- * @version 1.0
+ * @version 1.1
  */
 public class InterviewSession {
 
@@ -30,32 +34,39 @@ public class InterviewSession {
     private final QuestionBank questionBank;
     private final AnswerEvaluator evaluator;
     private final Candidate candidate;
+    private final QuestionSetter questionSetter;
     private final int questionCount;
 
     /**
-     * Creates a session using the default question count.
+     * Creates a session using a question setter with the default count.
      *
-     * @param questionBank source of questions
-     * @param evaluator    answer evaluation strategy
-     * @param candidate    the candidate being interviewed
+     * @param questionBank   source of questions
+     * @param evaluator      answer evaluation strategy
+     * @param candidate      the candidate being interviewed
+     * @param questionSetter the question selection strategy
      */
-    public InterviewSession(QuestionBank questionBank, AnswerEvaluator evaluator, Candidate candidate) {
-        this(questionBank, evaluator, candidate, DEFAULT_QUESTION_COUNT);
+    public InterviewSession(QuestionBank questionBank, AnswerEvaluator evaluator,
+                            Candidate candidate, QuestionSetter questionSetter) {
+        this(questionBank, evaluator, candidate, questionSetter,
+                DEFAULT_QUESTION_COUNT);
     }
 
     /**
      * Creates a session with a custom question count.
      *
-     * @param questionBank  source of questions
-     * @param evaluator     answer evaluation strategy
-     * @param candidate     the candidate being interviewed
-     * @param questionCount number of questions in this session
+     * @param questionBank   source of questions
+     * @param evaluator      answer evaluation strategy
+     * @param candidate      the candidate being interviewed
+     * @param questionSetter the question selection strategy
+     * @param questionCount  number of questions in this session
      */
     public InterviewSession(QuestionBank questionBank, AnswerEvaluator evaluator,
-                            Candidate candidate, int questionCount) {
+                            Candidate candidate, QuestionSetter questionSetter,
+                            int questionCount) {
         this.questionBank = questionBank;
         this.evaluator = evaluator;
         this.candidate = candidate;
+        this.questionSetter = questionSetter;
         this.questionCount = questionCount;
     }
 
@@ -66,7 +77,8 @@ public class InterviewSession {
      * @return the evaluations of all answers in this session
      */
     public List<AnswerEvaluation> run(InterviewListener listener) {
-        List<Question> questions = questionBank.getRandomQuestions(questionCount);
+        List<Question> questions = questionSetter.selectQuestions(questionBank,
+                questionCount);
         List<AnswerEvaluation> evaluations = new ArrayList<>();
 
         listener.onSessionStart(candidate, questions.size());

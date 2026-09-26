@@ -89,4 +89,14 @@ public class InMemoryQuestionBank implements QuestionBank {
         }
         return result;
     }
+
+    /**
+     * Adds questions to the bank at runtime (e.g. AI-generated ones).
+     *
+     * @param newQuestions the questions to append
+     */
+    @Override
+    public void addQuestions(List<Question> newQuestions) {
+        questions.addAll(newQuestions);
+    }
 }
