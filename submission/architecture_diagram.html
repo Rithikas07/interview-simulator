@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Figure 4.1 - System Architecture Diagram</title>
+<style>
+  :root{
+    --navy:#0d3f73;
+    --navy-dark:#0a2f57;
+    --teal:#0e9aa7;
+    --box-bg:#eaf8ff;
+    --text:#1c2b3a;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    width:2000px;
+    height:600px;
+    background:#ffffff;
+    font-family:'Segoe UI', Arial, Helvetica, sans-serif;
+    color:var(--text);
+  }
+  .canvas{
+    width:100%;
+    padding:40px 60px 30px 60px;
+    display:flex;flex-direction:column;
+    align-items:center;
+  }
+  .row{
+    display:grid;
+    grid-template-columns: 300px 60px 300px 60px 300px 60px 300px 60px 300px;
+    align-items:center;
+    width:100%;
+  }
+  .box{
+    background:var(--box-bg);
+    border:2.5px solid var(--navy);
+    border-radius:14px;
+    padding:18px 16px;
+    text-align:center;
+    font-size:21px;
+    font-weight:700;
+    color:var(--navy-dark);
+    min-height:96px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    line-height:1.3;
+  }
+  .box small{
+    display:block;font-weight:500;font-size:14px;color:#3a4a5a;margin-top:6px;
+    line-height:1.25;
+  }
+  .arrow-h{
+    font-size:40px;color:var(--navy);font-weight:700;text-align:center;
+  }
+  .sub-col{
+    grid-column:7;
+    display:flex;flex-direction:column;align-items:center;
+  }
+  .arrow-v{
+    font-size:40px;color:var(--teal);font-weight:700;margin:4px 0;
+  }
+  .sub-label{
+    font-size:16px;font-weight:700;color:var(--teal);
+    background:#fff;padding:2px 10px;border:2px dashed var(--teal);border-radius:8px;
+    margin:6px 0;
+  }
+  .eval-row{
+    display:flex;gap:22px;justify-content:center;margin-top:6px;
+  }
+  .eval-box{
+    background:#ffffff;
+    border:2px solid var(--teal);
+    border-radius:10px;
+    padding:12px 14px;
+    font-size:16px;
+    font-weight:600;
+    color:var(--navy-dark);
+    width:160px;
+    text-align:center;
+  }
+  .eval-box.offline{
+    border-style:solid;
+    background:var(--teal);
+    color:#fff;
+  }
+  .caption{
+    margin-top:24px;font-size:18px;font-style:italic;color:#3a4a5a;text-align:center;
+  }
+  .bracket{
+    font-size:14px;color:#5a6a7a;text-align:center;margin-top:4px;max-width:760px;
+  }
+</style>
+</head>
+<body>
+<div class="canvas">
+
+  <div class="row">
+    <div class="box">Candidate<br>Registration<small>CandidateRegistrationUI</small></div>
+    <div class="arrow-h">&#8594;</div>
+    <div class="box">Question-Setting<br>Strategy Selection<small>Random / Balanced / Topic-focused</small></div>
+    <div class="arrow-h">&#8594;</div>
+    <div class="box">Question Bank<small>questions.json via Gson (23 Qs, 6 topics)</small></div>
+    <div class="arrow-h">&#8594;</div>
+    <div class="box">Answer<br>Evaluation<small>EvaluatorFactory-selected chain</small></div>
+    <div class="arrow-h">&#8594;</div>
+    <div class="box">Placement-<br>Readiness Report<small>Topic-wise score + verdict</small></div>
+  </div>
+
+  <div class="row" style="margin-top:4px;">
+    <div class="sub-col">
+      <div class="arrow-v">&#8595;</div>
+      <div class="sub-label">FallbackEvaluator (Decorator)</div>
+      <div class="eval-row">
+        <div class="eval-box">Claude AI<br>(cloud)</div>
+        <div class="eval-box">Gemini AI<br>(cloud)</div>
+        <div class="eval-box">Ollama AI<br>(local model)</div>
+        <div class="eval-box offline">Keyword Evaluator<br>(offline, always available)</div>
+      </div>
+      <div class="bracket">Priority: Claude &#8594; Gemini &#8594; Ollama &#8594; offline keywords &mdash; any AI failure falls back automatically</div>
+    </div>
+  </div>
+
+  <div class="caption">Figure 4.1 &mdash; System Architecture Diagram: Java AI Interview Simulator</div>
+</div>
+</body>
+</html>

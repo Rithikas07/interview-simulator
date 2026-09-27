@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<style>
+  html,body{margin:0;padding:0;background:#f2f6fa;}
+  body{width:1400px;padding:40px;font-family:'Segoe UI',Arial,sans-serif;}
+  .win{
+    background:#1e1e2e;border-radius:14px;overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,0.25);
+  }
+  .titlebar{
+    background:#2a2a3d;padding:12px 18px;display:flex;align-items:center;gap:8px;
+  }
+  .dot{width:13px;height:13px;border-radius:50%;}
+  .dot.r{background:#ff5f56;} .dot.y{background:#ffbd2e;} .dot.g{background:#27c93f;}
+  .fname{color:#9aa5b1;font-size:13px;margin-left:14px;font-family:monospace;}
+  .term{
+    padding:22px 26px 28px 26px;color:#e6e6e6;font-family:'Cascadia Code','Consolas',monospace;
+    font-size:16px;line-height:1.5;white-space:pre-wrap;
+  }
+  .prompt{color:#8be9fd;}
+  .hdr{color:#ffb86c;}
+  .typed{color:#50fa7b;font-weight:600;}
+  .dim{color:#8a92a6;}
+  .caption{
+    text-align:center;font-style:italic;color:#3a4a5a;margin-top:16px;font-size:17px;
+    font-family:'Segoe UI',Arial,sans-serif;
+  }
+</style></head>
+<body>
+<div class="win">
+  <div class="titlebar"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+    <div class="fname">java -jar interview-simulator-1.0.0.jar</div>
+  </div>
+  <div class="term"><span class="hdr">================================================================
+           CANDIDATE PROFILE REGISTRATION
+================================================================</span>
+<span class="prompt">Enter your full name    : </span><span class="typed">Rithila</span>
+<span class="prompt">Enter your university   : </span><span class="typed">Chennai Institute of Technology</span>
+<span class="prompt">Enter your roll number  : </span><span class="typed">REG2026CS001</span>
+Profile created. Good luck, Rithila!
+
+<span class="dim">[EVALUATOR] Static keyword evaluator (offline)</span>
+
+<span class="hdr">******************* MAIN MENU *******************
+ 1. Start mock interview
+ 2. Browse questions by topic
+ 3. View my profile &amp; statistics
+ 4. Generate AI questions (adds to bank)
+ 5. Exit
+*************************************************</span>
+<span class="prompt">Choose an option: </span><span class="typed">1</span>
+
+<span class="dim">Question setting strategy:
+  1. Random        (shuffled from entire bank)
+  2. Balanced      (even coverage of all topics)
+  3. Topic focus   (one topic only)</span>
+<span class="prompt">Choose (0 to cancel): </span><span class="typed">2</span>
+
+<span class="hdr">----------------------------------------------------------------
+Question 1 of 5  [OOP]
+----------------------------------------------------------------</span>
+What is method overriding vs method overloading?
+<span class="prompt">Your answer &gt; </span><span class="typed">Overriding redefines an inherited method with the
+same signature and is resolved at runtime, while
+overloading uses different signatures resolved at
+compile time.</span></div>
+</div>
+<div class="caption">Screenshot 5.1 &mdash; User Input (candidate registration, menu choices and a typed answer)</div>
+</body></html>

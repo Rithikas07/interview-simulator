@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Java AI Interview Simulator — Poster</title>
+<style>
+  :root{
+    --navy:#0d3f73;
+    --navy-dark:#0a2f57;
+    --light-blue:#eaf8ff;
+    --panel-blue:#d9f2fd;
+    --teal:#0e9aa7;
+    --text:#22303f;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    width:2480px;
+    height:1754px;
+    background:var(--light-blue);
+    font-family:'Segoe UI', Arial, Helvetica, sans-serif;
+    color:var(--text);
+    overflow:hidden;
+  }
+  .sheet{
+    width:2480px;
+    height:1754px;
+    padding:36px 46px;
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
+
+  /* ---------- HEADER ---------- */
+  .header{
+    display:flex;
+    align-items:center;
+    gap:24px;
+    background:linear-gradient(90deg,var(--navy-dark),var(--navy));
+    border-radius:22px;
+    padding:18px 28px;
+    color:#fff;
+  }
+  .logo-box{
+    width:110px;height:110px;
+    border:2px dashed rgba(255,255,255,0.65);
+    border-radius:12px;
+    flex:0 0 auto;
+    display:flex;align-items:center;justify-content:center;
+    font-size:15px;color:rgba(255,255,255,0.75);text-align:center;
+    padding:6px;
+  }
+  .header-mid{flex:1;text-align:center;}
+  .header-mid .inst{font-size:26px;font-weight:700;letter-spacing:0.5px;}
+  .header-mid .dept{font-size:18px;opacity:0.9;margin-top:2px;}
+  .header-mid .course{font-size:16px;opacity:0.85;margin-top:6px;}
+  .title-band{
+    text-align:center;
+    margin-top:2px;
+  }
+  .title-band h1{
+    font-size:44px;
+    margin:6px 0 0 0;
+    color:var(--navy-dark);
+    font-weight:800;
+    letter-spacing:0.5px;
+  }
+  .title-band p{
+    margin:4px 0 0 0;
+    font-size:18px;
+    color:#3a4a5a;
+  }
+
+  /* ---------- GRID ---------- */
+  .grid{
+    flex:1;
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    grid-template-rows:auto auto auto;
+    gap:16px;
+  }
+  .panel{
+    background:var(--panel-blue);
+    border-radius:20px;
+    padding:0 0 14px 0;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+    border:1px solid #bfe4f5;
+  }
+  .pill{
+    background:var(--navy);
+    color:#fff;
+    font-weight:700;
+    font-size:19px;
+    letter-spacing:0.5px;
+    padding:10px 22px;
+    border-radius:999px;
+    margin:14px auto 10px auto;
+    display:inline-block;
+  }
+  .panel-body{
+    padding:0 20px;
+    font-size:15.5px;
+    line-height:1.42;
+    color:#28374a;
+  }
+  .panel-body ul{margin:4px 0 0 0;padding-left:20px;}
+  .panel-body li{margin-bottom:6px;}
+  .icon{
+    width:40px;height:40px;
+    border-radius:50%;
+    background:var(--navy);
+    color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-size:18px;font-weight:700;
+    flex:0 0 auto;
+  }
+
+  /* span helpers */
+  .col-1{grid-column:span 1;}
+  .col-2{grid-column:span 2;}
+  .col-4{grid-column:span 4;}
+  .row-2{grid-row:span 2;}
+
+  /* ---------- METHODS PIPELINE ---------- */
+  .pipeline{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:6px 18px 0 18px;flex-wrap:nowrap;
+  }
+  .pstep{
+    display:flex;flex-direction:column;align-items:center;text-align:center;
+    width:150px;
+  }
+  .pstep .icon{margin-bottom:6px;}
+  .pstep span{font-size:13px;font-weight:600;color:var(--navy-dark);line-height:1.25;}
+  .arrow{font-size:26px;color:var(--navy);margin:0 2px;}
+
+  /* ---------- ARCHITECTURE ---------- */
+  .arch{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:10px 18px 0 18px;flex-wrap:wrap;gap:10px;
+  }
+  .abox{
+    background:#fff;border:2px solid var(--navy);border-radius:12px;
+    padding:10px 12px;font-size:13px;font-weight:600;color:var(--navy-dark);
+    text-align:center;flex:1;min-width:150px;
+  }
+
+  /* ---------- RESULTS ---------- */
+  .results-flex{display:flex;gap:18px;padding:4px 20px 0 20px;}
+  table.rtab{border-collapse:collapse;width:100%;font-size:13px;}
+  table.rtab th{background:var(--navy);color:#fff;padding:5px 8px;text-align:left;}
+  table.rtab td{padding:5px 8px;border-bottom:1px solid #bfe4f5;}
+  table.rtab tr.best td{background:var(--teal);color:#fff;font-weight:700;}
+  .chart{flex:1;display:flex;align-items:flex-end;gap:10px;height:150px;padding-top:10px;}
+  .bar-wrap{display:flex;flex-direction:column;align-items:center;flex:1;height:100%;justify-content:flex-end;}
+  .bar{width:26px;background:var(--teal);border-radius:4px 4px 0 0;}
+  .bar.zero{background:#c0392b;}
+  .bar-wrap .val{font-size:12px;font-weight:700;color:var(--navy-dark);margin-bottom:2px;}
+  .bar-wrap .lbl{font-size:11px;margin-top:4px;color:#28374a;text-align:center;}
+
+  /* ---------- TEAM ---------- */
+  .team-list{padding:0 20px;font-size:14.5px;}
+  .team-list ol{margin:2px 0 8px 18px;padding:0;}
+  .team-list li{margin-bottom:4px;}
+
+  .footer-note{
+    text-align:center;font-size:12px;color:#5a6a7a;margin-top:2px;
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo-box">Institution<br>Logo</div>
+    <div class="header-mid">
+      <div class="inst">CHENNAI INSTITUTE OF TECHNOLOGY (Autonomous), Chennai</div>
+      <div class="dept">Department of Computer Science and Engineering</div>
+      <div class="course">Project-Based Learning — Java Programming &nbsp;|&nbsp; Academic Year 2026&ndash;2027</div>
+    </div>
+    <div class="logo-box">Dept. / Sponsor<br>Logo</div>
+  </div>
+
+  <div class="title-band">
+    <h1>JAVA AI INTERVIEW SIMULATOR</h1>
+    <p>A console-based, offline-capable core-Java mock-interview and placement-readiness tool</p>
+  </div>
+
+  <!-- GRID -->
+  <div class="grid">
+
+    <!-- ABSTRACT -->
+    <div class="panel col-1">
+      <div class="pill" style="margin-left:20px;">ABSTRACT</div>
+      <div class="panel-body">
+        Practises core-Java placement interviews through a console app that loads a 23-question
+        bank from JSON, lets the candidate pick a question-setting strategy, and scores each typed
+        answer with a keyword evaluator that falls back automatically if an AI backend is
+        unavailable. A 34-test JUnit suite passes at 100%, and a real demo session scored 73%
+        overall with a topic-wise breakdown.
+      </div>
+    </div>
+
+    <!-- INTRODUCTION -->
+    <div class="panel col-1">
+      <div class="pill" style="margin-left:20px;">INTRODUCTION</div>
+      <div class="panel-body">
+        Placement interviews test OOP, Collections, Strings, Exceptions, JVM and Multithreading,
+        but students rarely get interactive, offline practice with instant feedback. This project
+        builds that practice tool in Java itself, so building it reinforces the very concepts it
+        tests, and keeps it free of any paid or network dependency.
+      </div>
+    </div>
+
+    <!-- OBJECTIVES -->
+    <div class="panel col-1">
+      <div class="pill" style="margin-left:20px;">OBJECTIVES</div>
+      <div class="panel-body">
+        <ul>
+          <li>Design a 6-topic, JSON-backed question bank</li>
+          <li>Apply OOP + design patterns (Strategy, Factory, Decorator)</li>
+          <li>Build a pluggable, fail-safe answer evaluator chain</li>
+          <li>Offer random / balanced / topic-focused question setting</li>
+          <li>Verify logic with an automated JUnit 5 test suite</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- PROJECT TEAM -->
+    <div class="panel col-1">
+      <div class="pill" style="margin-left:20px;">PROJECT TEAM</div>
+      <div class="team-list">
+        <ol>
+          <li>Rithila</li>
+          <li>Rekha</li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ol>
+        <div><strong>Faculty Guide:</strong> ______________________</div>
+      </div>
+    </div>
+
+    <!-- METHODS & MATERIALS -->
+    <div class="panel col-2">
+      <div class="pill" style="margin-left:20px;">METHODS &amp; MATERIALS</div>
+      <div class="pipeline">
+        <div class="pstep"><div class="icon">1</div><span>Question Bank Design (JSON + Gson)</span></div>
+        <div class="arrow">&#8594;</div>
+        <div class="pstep"><div class="icon">2</div><span>Java OOP Development (model / service)</span></div>
+        <div class="arrow">&#8594;</div>
+        <div class="pstep"><div class="icon">3</div><span>Data Handling (List, Set, Map / Collections)</span></div>
+        <div class="arrow">&#8594;</div>
+        <div class="pstep"><div class="icon">4</div><span>Evaluator Chain Integration (Strategy + Decorator)</span></div>
+        <div class="arrow">&#8594;</div>
+        <div class="pstep"><div class="icon">5</div><span>JUnit Testing &amp; Evaluation</span></div>
+      </div>
+    </div>
+
+    <!-- SYSTEM ARCHITECTURE -->
+    <div class="panel col-2">
+      <div class="pill" style="margin-left:20px;">SYSTEM ARCHITECTURE</div>
+      <div class="arch">
+        <div class="abox">Candidate Registration</div>
+        <div class="arrow">&#8594;</div>
+        <div class="abox">Question-Setting Strategy</div>
+        <div class="arrow">&#8594;</div>
+        <div class="abox">Question Bank (JSON)</div>
+        <div class="arrow">&#8594;</div>
+        <div class="abox">Answer Evaluation (Keyword / AI + Fallback)</div>
+        <div class="arrow">&#8594;</div>
+        <div class="abox">Placement-Readiness Report</div>
+      </div>
+    </div>
+
+    <!-- RESULTS (wide) -->
+    <div class="panel col-4">
+      <div class="pill" style="margin-left:20px;">RESULTS</div>
+      <div class="results-flex">
+        <table class="rtab" style="max-width:640px;">
+          <tr><th>Test Class (JUnit 5)</th><th>Run</th><th>Fail</th></tr>
+          <tr><td>Model (Topic, Question, Candidate)</td><td>8</td><td>0</td></tr>
+          <tr><td>Evaluators (Keyword, Fallback)</td><td>7</td><td>0</td></tr>
+          <tr><td>Question bank &amp; setters</td><td>16</td><td>0</td></tr>
+          <tr><td>Report generator</td><td>3</td><td>0</td></tr>
+          <tr class="best"><td>TOTAL</td><td>34</td><td>0 (100% pass)</td></tr>
+        </table>
+        <div class="chart">
+          <div class="bar-wrap"><div class="val">83%</div><div class="bar" style="height:83%;"></div><div class="lbl">OOP</div></div>
+          <div class="bar-wrap"><div class="val">100%</div><div class="bar" style="height:100%;"></div><div class="lbl">Collections</div></div>
+          <div class="bar-wrap"><div class="val">83%</div><div class="bar" style="height:83%;"></div><div class="lbl">Strings</div></div>
+          <div class="bar-wrap"><div class="val">0%</div><div class="bar zero" style="height:3%;"></div><div class="lbl">Exceptions</div></div>
+          <div class="bar-wrap"><div class="val">100%</div><div class="bar" style="height:100%;"></div><div class="lbl">JVM</div></div>
+        </div>
+      </div>
+      <div class="footer-note">Sample mock-interview session (Balanced strategy, offline keyword evaluator) — overall score 73%, verdict "ALMOST THERE"</div>
+    </div>
+
+    <!-- DISCUSSION -->
+    <div class="panel col-1">
+      <div class="pill" style="margin-left:20px;">DISCUSSION</div>
+      <div class="panel-body">
+        <ul>
+          <li>34/34 tests confirm evaluator &amp; setter logic is correct</li>
+          <li>Keyword scoring rewards exact technical vocabulary</li>
+          <li>Wrong-subtopic answers can score 0% (Exceptions case)</li>
+          <li>AI evaluators mitigate this but need an API key</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- CONCLUSION -->
+    <div class="panel col-1">
+      <div class="pill" style="margin-left:20px;">CONCLUSION</div>
+      <div class="panel-body">
+        <ul>
+          <li>Built a working, offline mock-interview simulator</li>
+          <li>34/34 JUnit tests pass; real demo run verified end-to-end</li>
+          <li>Delivered topic-wise placement-readiness reporting</li>
+          <li>Met OOP &amp; design-pattern learning objectives</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- FUTURE ENHANCEMENTS -->
+    <div class="panel col-1">
+      <div class="pill" style="margin-left:20px;">FUTURE ENHANCEMENTS</div>
+      <div class="panel-body">
+        <ul>
+          <li>Semantic/embedding-based answer scoring</li>
+          <li>Persistent history via file or database</li>
+          <li>Code-coverage tooling (e.g. JaCoCo)</li>
+          <li>Larger, user-contributed question bank</li>
+          <li>Optional GUI / web front-end</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- REFERENCES -->
+    <div class="panel col-1">
+      <div class="pill" style="margin-left:20px;">REFERENCES</div>
+      <div class="panel-body" style="font-size:13px;">
+        <ul>
+          <li>Oracle, Java Tutorials, 2024</li>
+          <li>Oracle, Java SE 17 API Spec, 2021</li>
+          <li>Google, Gson User Guide, 2024</li>
+          <li>JUnit Team, JUnit 5 Guide, 2024</li>
+          <li>Gamma et al., Design Patterns, 1994</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

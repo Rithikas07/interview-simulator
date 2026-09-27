@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<style>
+  html,body{margin:0;padding:0;background:#f2f6fa;}
+  body{width:1400px;padding:40px;font-family:'Segoe UI',Arial,sans-serif;}
+  .win{
+    background:#1e1e2e;border-radius:14px;overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,0.25);
+  }
+  .titlebar{
+    background:#2a2a3d;padding:12px 18px;display:flex;align-items:center;gap:8px;
+  }
+  .dot{width:13px;height:13px;border-radius:50%;}
+  .dot.r{background:#ff5f56;} .dot.y{background:#ffbd2e;} .dot.g{background:#27c93f;}
+  .fname{color:#9aa5b1;font-size:13px;margin-left:14px;font-family:monospace;}
+  .term{
+    padding:22px 26px 28px 26px;color:#e6e6e6;font-family:'Cascadia Code','Consolas',monospace;
+    font-size:15.5px;line-height:1.48;white-space:pre-wrap;
+  }
+  .hdr{color:#ffb86c;}
+  .label{color:#8be9fd;}
+  .good{color:#50fa7b;font-weight:700;}
+  .bad{color:#ff5555;font-weight:700;}
+  .dim{color:#8a92a6;}
+  .verdict{color:#f1fa8c;font-weight:700;}
+  .caption{
+    text-align:center;font-style:italic;color:#3a4a5a;margin-top:16px;font-size:17px;
+    font-family:'Segoe UI',Arial,sans-serif;
+  }
+</style></head>
+<body>
+<div class="win">
+  <div class="titlebar"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+    <div class="fname">java -jar interview-simulator-1.0.0.jar</div>
+  </div>
+  <div class="term">  <span class="label">Score        :</span> <span class="good">100/100</span>
+  <span class="label">Feedback     :</span> Excellent! You covered 6/6 key points. A strong placement-level answer.
+  <span class="label">Hit keywords :</span> overriding, overloading, runtime, compile, signature, inheritance
+  <span class="label">Model answer :</span> <span class="dim">Overriding redefines an inherited method with the same signature in a
+  subclass and is resolved at runtime (dynamic binding). Overloading defines
+  methods with the same name but different parameter lists in the same class
+  and is resolved at compile time.</span>
+----------------------------------------------------------------
+<span class="hdr">Interview complete! You scored 73% this session.</span>
+Generating your placement-readiness report...
+
+<span class="hdr">================================================================
+              FINAL PLACEMENT-READINESS REPORT
+================================================================</span>
+Candidate  : Rithila
+University : Chennai Institute of Technology
+Roll No.   : REG2026CS001
+----------------------------------------------------------------
+<span class="label">Overall score this session : 363/5 (73%)</span>
+----------------------------------------------------------------
+Topic-wise performance:
+  OOP              : <span class="good">100%</span>  (##########)
+  JVM              : <span class="good">83%</span>   (########--)
+  Strings          : <span class="good">80%</span>   (########--)
+  Exceptions       : <span class="bad">0%</span>    (----------)
+  Collections      : <span class="good">100%</span>  (##########)
+----------------------------------------------------------------
+<span class="verdict">Verdict : ALMOST THERE — solid base, but strengthen the weaker topics listed above.</span>
+----------------------------------------------------------------
+Interviews completed  : 1
+Best score so far     : 73%
+================================================================</div>
+</div>
+<div class="caption">Screenshot 5.2 &mdash; Application Output (answer evaluation and final placement-readiness report)</div>
+</body></html>

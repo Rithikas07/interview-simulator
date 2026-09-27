@@ -27,6 +27,13 @@ replay_pid*
 target/
 dependency-reduced-pom.xml
 
+# OS / office lock and temp files
+*:Zone.Identifier
+*.TMP
+*.tmp
+~$*
+.~lock.*#
+
 # IDE files
 .idea/
 *.iml
