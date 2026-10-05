@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Java Technical Review Simulator Poster</title>
+<style>
+  :root{
+    --navy:#0c3b70; --navy-dark:#092d57; --bg:#e9f6fd; --panel:#dcf1fc; --panel-border:#a9d7f0;
+    --teal:#13a1b5; --teal-dark:#0b7f90; --teal-light:#bfeaf1; --text:#1f2d3b; --muted:#4a5a6a; --orange:#f39a2b;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{width:2480px;height:1754px;background:var(--bg);font-family:'Segoe UI',Arial,Helvetica,sans-serif;color:var(--text);overflow:hidden;}
+  .sheet{width:2480px;height:1754px;padding:0 30px 28px;display:flex;flex-direction:column;gap:14px;}
+
+  /* header */
+  .header{margin:0 -30px;background:linear-gradient(90deg,var(--navy-dark),var(--navy) 50%,var(--navy-dark));color:#fff;display:flex;align-items:center;padding:16px 48px;gap:30px;height:140px;flex:0 0 auto;}
+  .logo-box{width:150px;height:118px;border:2.5px dashed rgba(255,255,255,.7);border-radius:10px;flex:0 0 auto;}
+  .hmid{flex:1;text-align:center;line-height:1.28;}
+  .hmid .inst{font-size:34px;font-weight:800;letter-spacing:.5px;}
+  .hmid .sub{font-size:21px;opacity:.95;}
+  .title{text-align:center;font-size:50px;font-weight:800;color:var(--navy-dark);letter-spacing:.6px;margin:2px 0 0;flex:0 0 auto;line-height:1.1;}
+  .title small{display:block;font-size:20px;font-weight:500;color:var(--muted);letter-spacing:0;margin-top:4px;}
+
+  /* rows & panels */
+  .row{display:flex;gap:18px;min-height:0;}
+  .panel{position:relative;background:linear-gradient(180deg,#e6f6fe,var(--panel));border:2px solid var(--panel-border);border-radius:22px;padding:56px 24px 14px;min-width:0;box-shadow:0 2px 0 rgba(12,59,112,.06);}
+  .pill{position:absolute;top:-2px;left:50%;transform:translate(-50%,-30%);background:var(--navy);color:#fff;font-weight:800;font-size:27px;letter-spacing:1px;padding:6px 42px;border-radius:40px;white-space:nowrap;box-shadow:0 3px 0 rgba(0,0,0,.12);}
+  .pill.sm{font-size:25px;padding:6px 32px;}
+  .picon{position:absolute;top:4px;right:18px;width:48px;height:48px;}
+  .panel p{margin:0;font-size:21px;line-height:1.38;}
+  ul,ol{margin:0;padding-left:30px;}
+  li{font-size:20.5px;line-height:1.32;margin-bottom:4px;}
+  b,strong{color:var(--navy-dark);}
+
+  /* methods */
+  .steps{display:flex;align-items:stretch;gap:0;margin:0 0 10px;}
+  .step{flex:1;background:#fff;border:2px solid var(--navy);border-radius:14px;padding:10px 8px 10px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:4px;}
+  .step svg{width:50px;height:50px;}
+  .step .n{font-weight:800;font-size:20px;color:var(--navy-dark);line-height:1.15;}
+  .step .d{font-size:16.5px;color:var(--muted);line-height:1.25;}
+  .arrow{flex:0 0 36px;display:flex;align-items:center;justify-content:center;color:var(--navy);font-size:34px;font-weight:900;}
+  .iters{display:flex;gap:10px;margin-bottom:8px;}
+  .iter{flex:1;background:var(--teal-light);border-radius:12px;padding:5px 10px;font-size:16.5px;line-height:1.3;}
+  .iter b{display:block;font-size:17.5px;}
+  .tools{display:grid;grid-template-columns:1fr 1fr;column-gap:24px;}
+  .tools li{font-size:18px;margin-bottom:2px;}
+
+  /* results */
+  .res{display:flex;gap:22px;height:100%;}
+  table{border-collapse:collapse;width:100%;font-size:17px;}
+  th{background:var(--navy);color:#fff;text-align:left;padding:4px 10px;font-size:17px;}
+  th:first-child{border-radius:8px 0 0 0;} th:last-child{border-radius:0 8px 0 0;}
+  td{padding:2px 10px;border-bottom:1px solid #b9dcef;background:#fff;}
+  td.c,th.c{text-align:center;}
+  tr.best td{background:var(--teal);color:#fff;font-weight:800;border-bottom:none;}
+  .cap{font-size:15px;color:var(--muted);text-align:center;margin-top:6px;font-style:italic;}
+  .kpis{display:flex;flex-direction:column;gap:10px;flex:0 0 210px;justify-content:center;}
+  .kpi{background:#fff;border:2px solid var(--panel-border);border-radius:14px;padding:8px 10px;text-align:center;}
+  .kpi .v{font-size:36px;font-weight:800;color:var(--teal-dark);line-height:1.05;}
+  .kpi .l{font-size:16px;color:var(--muted);line-height:1.25;}
+  .kpi.hi{background:var(--teal);border-color:var(--teal);} .kpi.hi .v,.kpi.hi .l{color:#fff;}
+
+  .refs li{font-size:19.5px;margin-bottom:5px;}
+  .team li{font-size:21px;margin-bottom:8px;border-bottom:1.5px solid #9cc6de;padding-bottom:3px;min-height:36px;}
+  .guide{margin-top:12px;font-size:21px;}
+</style>
+</head>
+<body>
+<!-- ============ ICON LIBRARY ============ -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="i-gear" viewBox="0 0 64 64">
+      <g fill="#0c3b70"><circle cx="24" cy="38" r="13"/>
+        <g transform="translate(24 38)"><rect x="-3.5" y="-18" width="7" height="36" rx="2"/><rect x="-3.5" y="-18" width="7" height="36" rx="2" transform="rotate(45)"/><rect x="-3.5" y="-18" width="7" height="36" rx="2" transform="rotate(90)"/><rect x="-3.5" y="-18" width="7" height="36" rx="2" transform="rotate(135)"/></g></g>
+      <circle cx="24" cy="38" r="5.5" fill="#dcf1fc"/>
+      <g fill="#13a1b5"><circle cx="45" cy="20" r="8"/><g transform="translate(45 20)"><rect x="-2.5" y="-12" width="5" height="24" rx="1.5"/><rect x="-2.5" y="-12" width="5" height="24" rx="1.5" transform="rotate(60)"/><rect x="-2.5" y="-12" width="5" height="24" rx="1.5" transform="rotate(120)"/></g></g>
+      <circle cx="45" cy="20" r="3.5" fill="#dcf1fc"/>
+      <path d="M50 40a7 7 0 1 1 8 7v4h-6v-4a7 7 0 0 1-2-7z" fill="#f39a2b"/><rect x="52" y="52" width="6" height="3" rx="1" fill="#0c3b70"/>
+    </symbol>
+    <symbol id="i-laptop" viewBox="0 0 64 64">
+      <rect x="6" y="8" width="38" height="28" rx="3" fill="#0c3b70"/><rect x="10" y="12" width="30" height="20" fill="#bfeaf1"/>
+      <rect x="13" y="16" width="16" height="3" fill="#0c3b70"/><rect x="13" y="22" width="22" height="3" fill="#13a1b5"/><rect x="13" y="27" width="12" height="3" fill="#0c3b70"/>
+      <rect x="2" y="37" width="46" height="5" rx="2" fill="#0c3b70"/>
+      <circle cx="51" cy="24" r="7" fill="#13a1b5"/><path d="M39 60c0-10 5-17 12-17s12 7 12 17z" fill="#13a1b5"/>
+    </symbol>
+    <symbol id="i-target" viewBox="0 0 64 64">
+      <circle cx="28" cy="36" r="24" fill="#d8443a"/><circle cx="28" cy="36" r="18" fill="#fff"/><circle cx="28" cy="36" r="12" fill="#d8443a"/><circle cx="28" cy="36" r="6" fill="#fff"/>
+      <path d="M28 36L56 8" stroke="#0c3b70" stroke-width="4" stroke-linecap="round"/><path d="M50 4l10 0-2 10z" fill="#0c3b70"/>
+    </symbol>
+    <symbol id="i-design" viewBox="0 0 64 64">
+      <rect x="6" y="6" width="44" height="54" rx="4" fill="#fff" stroke="#0c3b70" stroke-width="3"/>
+      <rect x="13" y="14" width="13" height="10" rx="2" fill="#13a1b5"/><rect x="31" y="14" width="13" height="10" rx="2" fill="#0c3b70"/>
+      <rect x="22" y="36" width="13" height="10" rx="2" fill="#13a1b5"/><path d="M19.5 24v6h18v-6M28.5 30v6" stroke="#0c3b70" stroke-width="2.5" fill="none"/>
+      <path d="M44 58l14-22 4 3-14 22-5 2z" fill="#f39a2b"/>
+    </symbol>
+    <symbol id="i-java" viewBox="0 0 64 64">
+      <path d="M26 6c6 6-6 9 0 16M34 4c7 7-7 10 0 18" stroke="#d8443a" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+      <path d="M12 28h34v14a14 14 0 0 1-14 14h-6a14 14 0 0 1-14-14z" fill="#0c3b70"/>
+      <path d="M46 32h4a6 6 0 0 1 0 12h-5" stroke="#0c3b70" stroke-width="4" fill="none"/>
+      <rect x="6" y="57" width="46" height="4" rx="2" fill="#13a1b5"/>
+    </symbol>
+    <symbol id="i-db" viewBox="0 0 64 64">
+      <ellipse cx="32" cy="12" rx="22" ry="8" fill="#13a1b5"/>
+      <path d="M10 12v40c0 4.4 9.8 8 22 8s22-3.6 22-8V12c0 4.4-9.8 8-22 8s-22-3.6-22-8z" fill="#0c3b70"/>
+      <path d="M10 26c0 4.4 9.8 8 22 8s22-3.6 22-8M10 40c0 4.4 9.8 8 22 8s22-3.6 22-8" stroke="#bfeaf1" stroke-width="3" fill="none"/>
+    </symbol>
+    <symbol id="i-puzzle" viewBox="0 0 64 64">
+      <path d="M4 8h22v6a5 5 0 1 0 10 0V8h0v22h-6a5 5 0 1 0 0 10h6v0H4z" fill="#0c3b70"/>
+      <path d="M36 8h24v22h-6a5 5 0 1 1-10 0h-8z" fill="#13a1b5"/>
+      <path d="M36 40h8a5 5 0 1 0 10 0h6v20H36z" fill="#f39a2b"/>
+      <path d="M4 44h28v16H4z" fill="#3fb57a"/>
+    </symbol>
+    <symbol id="i-clip" viewBox="0 0 64 64">
+      <rect x="10" y="8" width="44" height="54" rx="5" fill="#fff" stroke="#0c3b70" stroke-width="3"/>
+      <rect x="22" y="3" width="20" height="10" rx="3" fill="#0c3b70"/>
+      <path d="M17 26l4 4 7-8M17 40l4 4 7-8M17 54l4 4 7-8" stroke="#13a1b5" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="32" y="25" width="16" height="4" rx="2" fill="#0c3b70"/><rect x="32" y="39" width="16" height="4" rx="2" fill="#0c3b70"/><rect x="32" y="53" width="12" height="4" rx="2" fill="#0c3b70"/>
+    </symbol>
+    <symbol id="i-net" viewBox="0 0 64 64">
+      <rect x="22" y="4" width="20" height="14" rx="3" fill="#0c3b70"/><rect x="2" y="44" width="18" height="14" rx="3" fill="#13a1b5"/><rect x="23" y="44" width="18" height="14" rx="3" fill="#13a1b5"/><rect x="44" y="44" width="18" height="14" rx="3" fill="#13a1b5"/>
+      <path d="M32 18v14M11 44V32h42v12M32 32v12" stroke="#0c3b70" stroke-width="3" fill="none"/>
+    </symbol>
+    <symbol id="i-chart" viewBox="0 0 64 64">
+      <rect x="4" y="6" width="56" height="44" rx="4" fill="#fff" stroke="#0c3b70" stroke-width="3"/>
+      <rect x="13" y="30" width="8" height="14" fill="#13a1b5"/><rect x="26" y="20" width="8" height="24" fill="#0c3b70"/><rect x="39" y="13" width="8" height="31" fill="#13a1b5"/>
+      <rect x="24" y="52" width="16" height="6" fill="#0c3b70"/><rect x="16" y="58" width="32" height="4" rx="2" fill="#0c3b70"/>
+    </symbol>
+    <symbol id="i-chat" viewBox="0 0 64 64">
+      <path d="M6 10h40a4 4 0 0 1 4 4v22a4 4 0 0 1-4 4H22l-10 9v-9H6a4 4 0 0 1-4-4V14a4 4 0 0 1 4-4z" fill="#0c3b70"/>
+      <circle cx="15" cy="25" r="3.5" fill="#fff"/><circle cx="26" cy="25" r="3.5" fill="#fff"/><circle cx="37" cy="25" r="3.5" fill="#fff"/>
+      <path d="M54 24h4a4 4 0 0 1 4 4v18a4 4 0 0 1-4 4h-4v8l-9-8H30a4 4 0 0 1-4-4v-2" fill="#13a1b5"/>
+    </symbol>
+    <symbol id="i-check" viewBox="0 0 64 64">
+      <circle cx="32" cy="32" r="28" fill="#13a1b5"/><circle cx="32" cy="32" r="21" fill="#fff"/>
+      <path d="M21 33l8 8 15-17" stroke="#0c3b70" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="i-bulb" viewBox="0 0 64 64">
+      <path d="M32 4a20 20 0 0 0-12 36c3 2.5 4 5 4 8h16c0-3 1-5.5 4-8A20 20 0 0 0 32 4z" fill="#f39a2b"/>
+      <path d="M26 30l6 6 6-6M32 36v12" stroke="#fff" stroke-width="3" fill="none"/>
+      <rect x="23" y="50" width="18" height="5" rx="2" fill="#0c3b70"/><rect x="25" y="57" width="14" height="5" rx="2" fill="#0c3b70"/>
+    </symbol>
+    <symbol id="i-books" viewBox="0 0 64 64">
+      <rect x="6" y="44" width="52" height="12" rx="2" fill="#0c3b70"/><rect x="10" y="30" width="46" height="12" rx="2" fill="#13a1b5"/><rect x="4" y="16" width="48" height="12" rx="2" fill="#d8443a"/>
+      <rect x="12" y="4" width="40" height="10" rx="2" fill="#f39a2b"/>
+      <rect x="10" y="48" width="40" height="3" fill="#fff"/><rect x="14" y="34" width="36" height="3" fill="#fff"/><rect x="8" y="20" width="38" height="3" fill="#fff"/>
+    </symbol>
+    <symbol id="i-team" viewBox="0 0 64 64">
+      <circle cx="14" cy="22" r="7" fill="#13a1b5"/><circle cx="50" cy="22" r="7" fill="#13a1b5"/><path d="M1 52c0-11 6-18 13-18s13 7 13 18zM37 52c0-11 6-18 13-18s13 7 13 18z" fill="#13a1b5"/>
+      <circle cx="32" cy="18" r="9" fill="#0c3b70"/><path d="M15 58c0-14 8-23 17-23s17 9 17 23z" fill="#0c3b70"/>
+    </symbol>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5 0 10z" fill="#0c3b70"/></marker>
+  </defs>
+</svg>
+
+<div class="sheet">
+  <!-- ============ HEADER ============ -->
+  <div class="header">
+    <div class="logo-box"></div>
+    <div class="hmid">
+      <div class="inst">CHENNAI INSTITUTE OF TECHNOLOGY, CHENNAI (Autonomous)</div>
+      <div class="sub">Affiliated to Anna University, Chennai</div>
+      <div class="sub">Department of Computer Science and Engineering &nbsp;·&nbsp; BACHELOR OF ENGINEERING</div>
+      <div class="sub">Project-Based Learning — Java Programming &nbsp;|&nbsp; Academic Year 2026–2027</div>
+    </div>
+    <div class="logo-box"></div>
+  </div>
+
+  <div class="title">AN INTERACTIVE JAVA TECHNICAL REVIEW SIMULATOR
+    <small>Java AI Interview Simulator — an offline-capable, core-Java mock-interview and placement-readiness tool</small></div>
+
+  <!-- ============ ROW 1 ============ -->
+  <div class="row" style="flex:0 0 302px">
+    <div class="panel" style="flex:1">
+      <div class="pill">ABSTRACT</div><svg class="picon"><use href="#i-gear"/></svg>
+      <p>A console-based placement-preparation application, built entirely in <b>core Java</b>, that helps engineering students rehearse core-Java technical interviews. It loads a <b>23-question bank across six topics</b> from JSON (Gson), sets questions via a <b>Random, Balanced or Topic-focused</b> strategy, and scores each typed answer through a pluggable evaluator chain (Claude, Gemini, Ollama) that <b>falls back to an offline keyword evaluator</b>. Every session ends with a topic-wise placement-readiness report, and a <b>34-test JUnit 5 suite passes at 100%</b>.</p>
+    </div>
+    <div class="panel" style="flex:1">
+      <div class="pill">INTRODUCTION</div><svg class="picon"><use href="#i-laptop"/></svg>
+      <p>Campus placement drives almost always include a core-Java technical round on OOP, Collections, exceptions, the JVM and multithreading — yet most students practise only with static notes or written quizzes, with no interactive tool that gives instant, keyword-level feedback. This project treats interview preparation as a well-scoped software-engineering problem: an <b>offline, no-cost</b> Java simulator with <b>topic-wise diagnostic feedback</b>. Because it is written with the very concepts it tests, building it also reinforces the subject.</p>
+    </div>
+    <div class="panel" style="flex:1">
+      <div class="pill">OBJECTIVES</div><svg class="picon"><use href="#i-target"/></svg>
+      <ol>
+        <li>Design a question-bank schema and load it from an external <b>JSON</b> file.</li>
+        <li>Model the system with <b>OOP classes and interfaces</b> for question selection and answer evaluation.</li>
+        <li>Implement <b>offline keyword scoring</b>, with an optional AI-backed evaluator behind the same interface.</li>
+        <li>Run a topic-focused mock interview and <b>report placement readiness</b> — no network or paid service needed.</li>
+        <li>Verify the core logic with an automated <b>JUnit 5</b> test suite.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- ============ ROW 2 ============ -->
+  <div class="row" style="flex:0 0 392px">
+    <div class="panel" style="flex:1">
+      <div class="pill">METHODS &amp; MATERIALS</div>
+      <div class="steps">
+        <div class="step"><svg><use href="#i-design"/></svg><div class="n">System Design</div><div class="d">Driving question, questions.json schema, interfaces</div></div>
+        <div class="arrow">➜</div>
+        <div class="step"><svg><use href="#i-java"/></svg><div class="n">Java Development</div><div class="d">OOP packages: model / service / core / ui / util</div></div>
+        <div class="arrow">➜</div>
+        <div class="step"><svg><use href="#i-db"/></svg><div class="n">Data Handling</div><div class="d">ArrayList, HashMap, Topic enum; JSON via Gson</div></div>
+        <div class="arrow">➜</div>
+        <div class="step"><svg><use href="#i-puzzle"/></svg><div class="n">Module Integration</div><div class="d">Strategy, Factory &amp; Decorator patterns</div></div>
+        <div class="arrow">➜</div>
+        <div class="step"><svg><use href="#i-clip"/></svg><div class="n">Testing &amp; Evaluation</div><div class="d">JUnit 5: 34 tests in 11 classes</div></div>
+      </div>
+      <div class="iters">
+        <div class="iter"><b>Baseline</b>Hard-coded questions, one KeywordBasedEvaluator, fixed random order</div>
+        <div class="iter"><b>Refinement</b>QuestionBank &amp; AnswerEvaluator interfaces, questions.json, 3 question setters</div>
+        <div class="iter"><b>Final</b>AI evaluators wrapped in FallbackEvaluator, chosen by EvaluatorFactory</div>
+      </div>
+      <ul class="tools">
+        <li><b>Language:</b> Java 17 (LTS)</li>
+        <li><b>Libraries:</b> Gson 2.11.0, JUnit Jupiter 5.10.2</li>
+        <li><b>Build:</b> Apache Maven 3.9.6 (surefire, shade → JAR)</li>
+        <li><b>IDE / VCS:</b> VS Code / IntelliJ IDEA, Git</li>
+      </ul>
+    </div>
+
+    <div class="panel" style="flex:1">
+      <div class="pill">SYSTEM ARCHITECTURE</div>
+      <svg viewBox="0 0 1150 300" width="100%" height="300" font-family="Segoe UI, Arial, sans-serif">
+        <style>
+          .st{fill:#e8f7fe;stroke:#0c3b70;stroke-width:2.5}
+          .t{font-size:19px;font-weight:800;fill:#092d57;text-anchor:middle}
+          .s{font-size:14.5px;fill:#4a5a6a;text-anchor:middle}
+          .ai{fill:#fff;stroke:#13a1b5;stroke-width:2.5}
+          .ta{font-size:16.5px;font-weight:700;fill:#092d57;text-anchor:middle}
+          .ln{stroke:#0c3b70;stroke-width:2.5;fill:none;marker-end:url(#ah)}
+          .bus{stroke:#13a1b5;stroke-width:2.5;fill:none}
+          .k{font-size:16px;fill:#1f2d3b}
+        </style>
+        <!-- Figure 4.1 top-level flow -->
+        <rect class="st" x="0" y="0" width="196" height="96" rx="14"/><text class="t" x="98" y="30">Candidate</text><text class="t" x="98" y="53">Registration</text><text class="s" x="98" y="78">CandidateRegistrationUI</text>
+        <rect class="st" x="238" y="0" width="196" height="96" rx="14"/><text class="t" x="336" y="30">Question-Setting</text><text class="t" x="336" y="53">Strategy Selection</text><text class="s" x="336" y="78">Random / Balanced / Topic</text>
+        <rect class="st" x="476" y="0" width="196" height="96" rx="14"/><text class="t" x="574" y="38">Question Bank</text><text class="s" x="574" y="62">questions.json via Gson</text><text class="s" x="574" y="80">(23 Qs, 6 topics)</text>
+        <rect class="st" x="714" y="0" width="196" height="96" rx="14"/><text class="t" x="812" y="30">Answer</text><text class="t" x="812" y="53">Evaluation</text><text class="s" x="812" y="78">EvaluatorFactory chain</text>
+        <rect class="st" x="952" y="0" width="196" height="96" rx="14"/><text class="t" x="1050" y="30">Placement-</text><text class="t" x="1050" y="53">Readiness Report</text><text class="s" x="1050" y="78">Topic-wise score + verdict</text>
+        <path class="ln" d="M196 48H236"/><path class="ln" d="M434 48H474"/><path class="ln" d="M672 48H712"/><path class="ln" d="M910 48H950"/>
+        <!-- Evaluator chain -->
+        <path class="ln" d="M812 96V126"/>
+        <rect x="682" y="128" width="260" height="32" rx="16" fill="#fff" stroke="#13a1b5" stroke-width="2" stroke-dasharray="6 4"/>
+        <text x="812" y="150" text-anchor="middle" font-size="16.5" font-weight="700" fill="#0b7f90">FallbackEvaluator (Decorator)</text>
+        <path class="bus" d="M812 160V172M566 172H1058M566 172V184M730 172V184M894 172V184M1058 172V184"/>
+        <rect class="ai" x="491" y="184" width="150" height="68" rx="10"/><text class="ta" x="566" y="213">Claude AI</text><text class="s" x="566" y="236">(cloud)</text>
+        <rect class="ai" x="655" y="184" width="150" height="68" rx="10"/><text class="ta" x="730" y="213">Gemini AI</text><text class="s" x="730" y="236">(cloud)</text>
+        <rect class="ai" x="819" y="184" width="150" height="68" rx="10"/><text class="ta" x="894" y="213">Ollama AI</text><text class="s" x="894" y="236">(local model)</text>
+        <rect x="983" y="184" width="150" height="68" rx="10" fill="#13a1b5"/><text class="ta" x="1058" y="211" fill="#fff" style="fill:#fff">Keyword</text><text x="1058" y="234" text-anchor="middle" font-size="14.5" fill="#fff">(offline, always on)</text>
+        <text x="812" y="280" text-anchor="middle" font-size="15" font-style="italic" fill="#4a5a6a">Priority: Claude → Gemini → Ollama → offline keywords — any AI failure falls back automatically</text>
+        <!-- Key classes -->
+        <use href="#i-team" x="0" y="124" width="44" height="44"/>
+        <text x="54" y="152" font-size="17.5" font-weight="800" fill="#092d57">Key classes</text>
+        <text class="k" x="0" y="190">• InterviewSession — orchestrates the session</text>
+        <text class="k" x="0" y="214">• ConsoleInterviewUI — shows Qs, captures answers</text>
+        <text class="k" x="0" y="238">• JsonQuestionLoader → InMemoryQuestionBank</text>
+        <text class="k" x="0" y="262">• PlacementReadinessReportGenerator</text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- ============ ROW 3 ============ -->
+  <div class="row" style="flex:1">
+    <div class="panel" style="flex:2.15">
+      <div class="pill">RESULTS</div><svg class="picon"><use href="#i-chart"/></svg>
+      <div class="res">
+        <div style="flex:0 0 470px">
+          <table>
+            <tr><th>JUnit 5 Test Class</th><th class="c">Passed</th><th class="c">Defects</th></tr>
+            <tr><td>TopicTest</td><td class="c">3</td><td class="c">0</td></tr>
+            <tr><td>QuestionTest</td><td class="c">2</td><td class="c">0</td></tr>
+            <tr><td>CandidateTest</td><td class="c">3</td><td class="c">0</td></tr>
+            <tr><td>KeywordBasedEvaluatorTest</td><td class="c">5</td><td class="c">0</td></tr>
+            <tr><td>FallbackEvaluatorTest</td><td class="c">2</td><td class="c">0</td></tr>
+            <tr><td>InMemoryQuestionBankTest</td><td class="c">5</td><td class="c">0</td></tr>
+            <tr><td>RandomQuestionSetterTest</td><td class="c">3</td><td class="c">0</td></tr>
+            <tr><td>BalancedQuestionSetterTest</td><td class="c">3</td><td class="c">0</td></tr>
+            <tr><td>TopicQuestionSetterTest</td><td class="c">3</td><td class="c">0</td></tr>
+            <tr><td>JsonQuestionLoaderTest</td><td class="c">2</td><td class="c">0</td></tr>
+            <tr><td>PlacementReadinessReport…Test</td><td class="c">3</td><td class="c">0</td></tr>
+            <tr class="best"><td>TOTAL (11 classes)</td><td class="c">34 / 34</td><td class="c">0</td></tr>
+          </table>
+          <div class="cap">Table 6.1 — Test and defect outcomes (mvn test)</div>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;min-width:0">
+          <svg viewBox="0 0 560 372" width="100%" style="flex:1" font-family="Segoe UI, Arial, sans-serif">
+            <text x="280" y="20" text-anchor="middle" font-size="20" font-weight="700" fill="#092d57">Sample mock-interview: topic-wise score (%)</text>
+            <g transform="translate(0,30)">
+            <g stroke="#b9dcef" stroke-width="1.5">
+              <line x1="60" y1="290" x2="550" y2="290"/><line x1="60" y1="225" x2="550" y2="225"/><line x1="60" y1="160" x2="550" y2="160"/><line x1="60" y1="95" x2="550" y2="95"/><line x1="60" y1="40" x2="550" y2="40"/>
+            </g>
+            <g font-size="15" fill="#4a5a6a" text-anchor="end"><text x="52" y="295">0</text><text x="52" y="230">25</text><text x="52" y="165">50</text><text x="52" y="100">75</text><text x="52" y="45">100</text></g>
+            <!-- scale: 100% = 250px, base y=290 -->
+            <g fill="#13a1b5">
+              <rect x="80" y="82.5" width="64" height="207.5" rx="4"/>
+              <rect x="178" y="40" width="64" height="250" rx="4" fill="#0b7f90"/>
+              <rect x="276" y="82.5" width="64" height="207.5" rx="4"/>
+              <rect x="374" y="288" width="64" height="2"/>
+              <rect x="472" y="40" width="64" height="250" rx="4" fill="#0b7f90"/>
+            </g>
+            <g font-size="18" font-weight="800" fill="#092d57" text-anchor="middle">
+              <text x="112" y="74">83%</text><text x="210" y="32">100%</text><text x="308" y="74">83%</text><text x="406" y="280" fill="#d8443a">0%</text><text x="504" y="32">100%</text>
+            </g>
+            <g font-size="17" fill="#1f2d3b" text-anchor="middle">
+              <text x="112" y="314">OOP</text><text x="210" y="314">Collections</text><text x="308" y="314">Strings</text><text x="406" y="314">Exceptions</text><text x="504" y="314">JVM</text>
+            </g>
+            <text x="280" y="338" text-anchor="middle" font-size="15" font-style="italic" fill="#4a5a6a">Table 6.2 — offline keyword evaluator</text></g>
+          </svg>
+        </div>
+        <div class="kpis">
+          <div class="kpi hi"><div class="v">34/34</div><div class="l">JUnit tests passed<br>(100%, 0 failures)</div></div>
+          <div class="kpi"><div class="v">73%</div><div class="l">Overall session score<br>Verdict: <b>ALMOST THERE</b></div></div>
+          <div class="kpi"><div class="v">23</div><div class="l">questions across<br>6 core-Java topics</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel" style="flex:1">
+      <div class="pill sm">DISCUSSION</div><svg class="picon"><use href="#i-chat"/></svg>
+      <ul>
+        <li>34/34 passing tests confirm the model, evaluator and question-setter logic — including the FallbackEvaluator's exception path.</li>
+        <li>Keyword scoring rewards exact technical vocabulary (100% on Collections and JVM).</li>
+        <li><b>Limitation:</b> correct but differently-phrased answers can score poorly — Exceptions scored 0% when the drawn question was on try-with-resources.</li>
+        <li>AI evaluators were built to address this but were not exercised (no API key or local Ollama).</li>
+      </ul>
+    </div>
+
+    <div class="panel" style="flex:1">
+      <div class="pill sm">CONCLUSION</div><svg class="picon"><use href="#i-check"/></svg>
+      <ul>
+        <li>Answers the driving question: an offline-capable console tool that runs a realistic core-Java mock interview.</li>
+        <li>JSON question bank, three interchangeable question setters and a resilient evaluator chain.</li>
+        <li>34/34 JUnit tests and an end-to-end demo (73%, "ALMOST THERE") confirm it works as designed.</li>
+        <li>Hands-on practice with interfaces, inheritance, collections, exceptions and Strategy / Factory / Decorator patterns.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ============ ROW 4 ============ -->
+  <div class="row" style="flex:0 0 246px">
+    <div class="panel" style="flex:1.45">
+      <div class="pill sm">FUTURE ENHANCEMENTS</div><svg class="picon"><use href="#i-bulb"/></svg>
+      <ul>
+        <li>Semantic / embedding-based scoring for correct but keyword-light answers.</li>
+        <li>Persistent storage (file or database) so candidate history survives restarts.</li>
+        <li>Larger question bank with validated, user-contributed questions.</li>
+        <li>A GUI or web front-end on top of the existing UI-agnostic service layer.</li>
+        <li>Test the Claude / Gemini / Ollama evaluators end-to-end with API access.</li>
+      </ul>
+    </div>
+    <div class="panel" style="flex:0.85;padding:52px 16px 12px">
+      <div class="pill sm">DEMO SCREENSHOT</div>
+      <svg viewBox="40 29 1400 635" width="100%" height="172" preserveAspectRatio="xMidYMid meet" style="display:block;border-radius:8px"><image href="poster_demo_input.png" x="0" y="0" width="1480" height="721"/></svg>
+      <div class="cap" style="margin-top:4px">Fig. 5.1 — registration, strategy menu and a typed answer</div>
+    </div>
+    <div class="panel" style="flex:0.85">
+      <div class="pill sm">REFERENCES</div>
+      <ol class="refs">
+        <li>Oracle, <i>The Java™ Tutorials</i>, 2024.</li>
+        <li>Oracle, <i>Java SE 17 API Specification</i>, 2021.</li>
+        <li>Google, <i>Gson User Guide</i>, GitHub, 2024.</li>
+        <li>JUnit Team, <i>JUnit 5 User Guide</i>, 2024.</li>
+        <li>E. Gamma et al., <i>Design Patterns</i>, Addison-Wesley, 1994.</li>
+      </ol>
+    </div>
+    <div class="panel" style="flex:0.75">
+      <div class="pill sm">PROJECT TEAM</div><svg class="picon"><use href="#i-team"/></svg>
+      <ol class="team">
+        <li>RITHIKA S (2104251040779)</li>
+        <li>SHWETHAA JV (2104251050318)</li>
+      </ol>
+      <div class="guide"><b>Faculty Guide:</b> Dr. R. Kavitha, M.E., Ph.D.</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

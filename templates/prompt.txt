@@ -1,0 +1,65 @@
+Generate this as a single rendered poster image (JPEG or PNG, A3 landscape,
+420mm x 297mm, high resolution, print-ready) — not HTML, CSS, SVG, or any
+code. Output the finished poster graphic directly. Use the attached poster image as the exact visual template:
+same navy blue and light-blue color scheme,
+same rounded panel layout with pill-shaped navy title bars,
+ same icon style,
+same overall structure.
+Read my attached project report and extract the real content for each section below
+— do not invent data, numbers, or findings that aren't in the report.
+For every panel, condense the report's content into a short, meaningful summary
+that fits the panel (2-4 sentences or 3-5 bullet points, matching what's shown in the
+template) — do not paste long raw paragraphs from the report; rewrite them as
+concise, poster-appropriate summaries.
+Header:
+Do NOT attempt to extract, redraw, or recreate any logos from the attached
+reference image — image models cannot reliably copy an embedded logo and will
+distort it. Instead, leave two clean empty rectangular spaces in the exact same
+header positions as the reference image: a small placeholder box in the topleft corner (for the institution logo) and a small placeholder box in the top-right
+corner (for a department/sponsor logo), each with a thin dashed border and no
+content inside.
+Institution name, department, and location from the report (or leave as placeholder
+text if not present)
+Course name and academic year from the report
+Full project title from the report, in large bold text below the header band
+Panels to generate, using report content:
+ABSTRACT — summarize the report's abstract/summary section in 3-4 sentences:
+what problem is solved, what method is used, what the outcome is.
+INTRODUCTION — summarize the report's introduction/background in 3-4
+sentences: why the problem matters and what approach is taken.
+OBJECTIVES — pull the stated objectives/goals from the report and condense into
+4-5 short bullet points.
+METHODS & MATERIALS — extract the actual pipeline/workflow stages from the
+report's methodology section and lay them out as a left-to-right sequence of icon
+boxes connected by arrows (e.g., System Design →Java Development→ Data
+Handling(ArrayList, HashSet, HashMap/TreeMap and other Java Collections)→
+Module Integration → Testing & Evaluation using the report's real stage names),
+SYSTEM ARCHITECTURE — build a simple boxes-and-arrows diagram of the
+system's actual components and data flow as described in the report (Requirement
+Analysis → System Design → Java Class & Module Development→ Data
+Processing & Validation→ Module Integration), using the report's own component
+names.
+RESULTS — pull actual numbers from the report's results section: recreate any
+result images if provided, and rebuild the report's real performance table or whatever
+metrics the report uses with the best-performing method's row highlighted. If the
+report includes charts recreate simplified versions of those exact charts using the
+report's real values — do not fabricate plausible-looking curves if the report doesn't
+provide the underlying numbers; in that case, only include the ones you have real
+data for. DISCUSSION — condense the report's discussion section into 3-4 bullet points: key
+findings, practical usefulness, limitations.
+CONCLUSION — condense the report's conclusion into 3-4 bullet points: what was
+achieved and its impact.
+FUTURE ENHANCEMENTS — pull the report's future work section into 3-5 short
+bullet points.
+REFERENCES — list 4-5 of the report's actual citations, shortened to fit small text
+(authors/source + year, not full citations).
+PROJECT TEAM — leave as a numbered blank list (1-5) with a "Faculty Guide:
+______" line, unless the report names the students and guide, in which case fill them
+in.
+Visual style (match the attached template exactly): navy blue header bars and panel
+title pills, white text on navy, very light blue background, teal/cyan accent color for
+charts and the highlighted best-result row, dark gray body text, bold sans-serif
+headers, clean sans-serif body text, flat vector icons relevant to the project's actual
+domain (not necessarily the dental/tooth icons in the reference — swap icons to
+match this project's subject), rounded-corner panels, consistent padding and font
+sizes across all panels so the poster reads as one coherent document. 
